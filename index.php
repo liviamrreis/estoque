@@ -1,6 +1,13 @@
 <?php
-
+session_start();
 require_once 'produtos.modelo.php';
+require_once 'usuarios.modelo.php';
+if (empty($_SESSION['usuario']))
+{
+    // o usuario nao esta logado
+    // redirecionaod para a pagina de login
+    header("Location: login.php");
+}
 
 $produtos = buscarProdutos();
 $qtdeProdutos = count($produtos);
@@ -18,8 +25,11 @@ $qtdeProdutos = count($produtos);
 </head>
 <body class="container">
     <h1>Petz</h1>
-    <h2>Controle de Estoque</h2>
-    <h3>Produtos cadastrados</h3>
+    <h2>Olá, 
+        <?= $_SESSION['usuario'] ?>
+    </h2>
+    <h3>Controle de Estoque</h3>
+    <h4>Produtos cadastrados</h4>
 
     <p>Atualmente temos <?= $qtdeProdutos ?> produtos cadastrados.</p>
 
@@ -51,6 +61,7 @@ $qtdeProdutos = count($produtos);
             <?php endforeach; ?>
         </tbody>
     </table>
+    <a href="logout.php">Sair do sistema</a>
 
 </body>
 </html>
